@@ -5,8 +5,8 @@ from sentence_transformers import SentenceTransformer
 
 
 class FeatureBuilder:
-    def __init__(self):
-        self._model = SentenceTransformer("all-MiniLM-L6-v2")
+    def __init__(self, model: str):
+        self._model = SentenceTransformer(model)
 
     async def build_features(
         self, sentences: AsyncGenerator[str, None]
