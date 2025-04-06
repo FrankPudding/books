@@ -1,7 +1,8 @@
-import numpy as np
+from typing import List
 import pytest
 
 from books.application.container import Container
+from books.domain.entities.sentiment import Sentiment
 from books.domain.inference_service import InferenceService
 from books.domain.models.xgboost_model import XGBoostModel
 from books.domain.training_service import TrainingService
@@ -22,15 +23,15 @@ class TestInferenceService:
     ):
         # arrange
         model = XGBoostModel()
-        model_id = await training_service.train_model(model=model)
+        model_uri = await training_service.train_model(model=model)
         sentences = ["This is bad", "This is worse", "This is good though"]
 
         # act
         result = await sut.predict_batch(
-            model_id=model_id, sentences=sentences
+            model_uri=model_uri, sentences=sentences
         )
 
         # assert
-        assert isinstance(result, np.ndarray)
+        assert isinstance(result, List)
         assert len(result) == 3
-        assert isinstance(result[0], np.int64)
+        assert isinstance(result[0], Sentiment)

@@ -24,22 +24,22 @@ def train():
     container.config.from_pydantic(config)
     training_service = container.training_service()
     model = XGBoostModel()
-    model_id = asyncio.run(training_service.train_model(model))
-    print(model_id)
+    model_uri = asyncio.run(training_service.train_model(model))
+    print(f"Model URI: {model_uri})
 
 
 @cli.command()
 @click.option("--text", help="The text to classify")
 @click.option(
-    "--model-id", help="The ID of the model you want to predict with"
+    "--model-uri", help="The ID of the model you want to predict with"
 )
-def predict(text: str, model_id: str):
+def predict(text: str, model_uri: str):
     container = Container()
     config = Config()
     container.config.from_pydantic(config)
     inference_service = container.inference_service()
     result = asyncio.run(
-        inference_service.predict_batch(model_id=model_id, sentences=[text])
+        inference_service.predict_batch(model_uri=model_uri, sentences=[text])
     )[0]
     print(result)
 
@@ -47,11 +47,11 @@ def predict(text: str, model_id: str):
 @cli.command()
 @click.option("--text", help="The text to classify")
 @click.option(
-    "--model-id",
+    "--model-uri",
     help="The ID of the model you want to predict with",
     default=None,
 )
-def predict(text: str, model_id: Optional[str]):
+def predict(text: str, model_uri: Optional[str]):
     print("Warming up...")
     container = Container()
     config = Config()
@@ -59,9 +59,9 @@ def predict(text: str, model_id: Optional[str]):
     inference_service = container.inference_service()
     print("Predicting...")
     result = asyncio.run(
-        inference_service.predict_batch(model_id=model_id, sentences=[text])
+        inference_service.predict_batch(model_uri=model_uri, sentences=[text])
     )[0]
-    print(result)
+    print(f"Prediction: {result}")
 
 
 if __name__ == "__main__":

@@ -45,6 +45,6 @@ class TrainingService:
         )
         model.fit(x_train, y_train)
 
-        model_id = await self._model_regsitry.log_model(model)
+        model_uri = await self._model_regsitry.log_model(model)
 
-        return model_id
+        return model_uri
