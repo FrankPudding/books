@@ -4,8 +4,8 @@ from typing import AsyncGenerator
 
 import aiofiles
 
-from books.domain.data_repository import Repository
 from books.domain.entities.review import Review
+from books.domain.repository import Repository
 
 
 class JsonlFileReviewRepository(Repository[Review]):

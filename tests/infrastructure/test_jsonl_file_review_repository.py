@@ -29,3 +29,13 @@ class TestJsonlFileReviewRepository:
         # act
         with pytest.raises(ValueError):
             JsonlFileReviewRepository(filepath="something.json")
+
+    @pytest.mark.asyncio
+    async def test_dummy(self, sut: JsonlFileReviewRepository):
+        from sklearn.feature_extraction.text import TfidfVectorizer
+
+        result = sut.get_all_items()
+        texts = [review.text async for review in result]
+        vectorizer = TfidfVectorizer()
+        x = vectorizer.fit_transform(texts)
+        print(x)
