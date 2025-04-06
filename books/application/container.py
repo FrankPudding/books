@@ -4,12 +4,13 @@ from sentence_transformers import SentenceTransformer
 
 from books.application.config import Config
 from books.domain.feature_builder import FeatureBuilder
-from books.domain.model_builders.xgboost_model_builder import (
-    XGBoostModelBuilder,
-)
+from books.domain.models.xgboost_model import XGBoostModel
 from books.domain.preprocessor import Preprocessor
 from books.domain.training_service import TrainingService
-from books.infrastructure.jsonl_file_review_repository import (
+from books.infrastructure.model_registries.mlflow_model_regsitry import (
+    MlflowModelRegsitry,
+)
+from books.infrastructure.repositories.jsonl_file_review_repository import (
     JsonlFileReviewRepository,
 )
 
@@ -17,7 +18,7 @@ from books.infrastructure.jsonl_file_review_repository import (
 class Container(DeclarativeContainer):
     config: Config = providers.Configuration()
 
-    review_repository = providers.Factory(
+    jsonl_file_review_repository = providers.Factory(
         JsonlFileReviewRepository, filepath=config.reviews_jsonl_filepath
     )
 
@@ -31,13 +32,17 @@ class Container(DeclarativeContainer):
         FeatureBuilder, sentence_transformer=sentence_transformer
     )
 
-    xgboost_model_builder = providers.Factory(XGBoostModelBuilder)
+    xgboost_model = providers.Factory(XGBoostModel)
 
     training_service = providers.Factory(
         TrainingService,
-        review_repository=review_repository,
+        review_repository=jsonl_file_review_repository,
         preprocessor=preprocessor,
         feature_builder=feature_builder,
-        model_builder=xgboost_model_builder,
+        untrained_model=xgboost_model,
         test_split=config.test_split,
+    )
+
+    mlflow_model_regsitry = providers.Factory(
+        MlflowModelRegsitry, tracking_uri=config.mlflow_tracking_uri
     )

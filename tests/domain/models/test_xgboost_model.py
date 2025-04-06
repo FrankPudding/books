@@ -9,7 +9,7 @@ from books.domain.models.xgboost_model import XGBoostModel
 class TestXGBoostModel:
     @pytest.fixture()
     def sut(self, container: Container) -> XGBoostModel:
-        return container.xgboost_model_builder().build_model()
+        return container.xgboost_model()
 
     def test_fits(self, sut: XGBoostModel):
         # arrange

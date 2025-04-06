@@ -1,19 +1,17 @@
 from typing import AsyncGenerator
 import pytest
 
+from books.application.container import Container
 from books.domain.entities.review import Review
-from books.infrastructure.jsonl_file_review_repository import (
+from books.infrastructure.repositories.jsonl_file_review_repository import (
     JsonlFileReviewRepository,
 )
-from tests import TEST_DATA_ROOT
 
 
 class TestJsonlFileReviewRepository:
     @pytest.fixture()
-    def sut(self) -> JsonlFileReviewRepository:
-        return JsonlFileReviewRepository(
-            filepath=TEST_DATA_ROOT.joinpath("Books_sample.jsonl").as_posix()
-        )
+    def sut(self, container: Container) -> JsonlFileReviewRepository:
+        return container.jsonl_file_review_repository()
 
     @pytest.mark.asyncio
     async def test_gets_all_items(self, sut: JsonlFileReviewRepository):

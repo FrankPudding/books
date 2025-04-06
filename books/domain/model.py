@@ -1,10 +1,9 @@
-import abc
 from typing import List
 
 import pandas as pd
 
 
-class Model(abc.ABC):
+class Model:
     def fit(self, data: pd.DataFrame, target: List[int]):
         raise NotImplementedError()
 

@@ -12,4 +12,9 @@ class Config(BaseSettings):
         ).as_posix()
     )
     sentence_transformer_model: str = Field(default="all-MiniLM-L6-v2")
+    mlflow_tracking_uri: str = Field(
+        default_factory=lambda _: f"file://{RESOURCES_ROOT.joinpath(
+            "model-store/"
+        ).as_posix()}"
+    )
     test_split: Optional[float] = None
