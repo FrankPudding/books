@@ -33,5 +33,5 @@ black = "^25.1.0"
 [tool.black]
 line-length = 79
 
-[tool.pytest-asyncio]
+[tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"

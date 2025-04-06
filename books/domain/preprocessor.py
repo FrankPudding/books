@@ -10,6 +10,7 @@ class Preprocessor:
     async def preprocess_reviews(
         self, reviews: AsyncGenerator[Review, None]
     ) -> Tuple[AsyncGenerator[str, None], AsyncGenerator[int, None]]:
+        # need to duplicate the reviews generator to be able to iterate through it for sentences and sentiment separately
         reviews_1, reviews_2 = aioitertools.tee(reviews, n=2)
         sentences = self._generate_sentences(reviews=reviews_1)
         sentiments = self._generate_sentiments(reviews=reviews_2)

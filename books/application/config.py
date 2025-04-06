@@ -11,5 +11,5 @@ class Config(BaseSettings):
             "data/Books_10k.jsonl"
         ).as_posix()
     )
-    feature_builder_model: str = Field(default="all-MiniLM-L6-v2")
+    sentence_transformer_model: str = Field(default="all-MiniLM-L6-v2")
     test_split: Optional[float] = None
