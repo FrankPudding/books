@@ -11,14 +11,11 @@ from books.domain.repository import Repository
 
 
 class TrainingService:
-    def __init__(
-        self, review_repository: Repository[Review], batch_size: int = 1000
-    ):
+    def __init__(self, review_repository: Repository[Review]):
         self._review_repository = review_repository
         self._model_builder = XGBoostModelBuilder()
         self._preprocessor = Preprocessor()
         self._feature_builder = FeatureBuilder()
-        self._batch_size = batch_size
 
     async def train_model(self):
         reviews = self._review_repository.get_all_items()
