@@ -37,7 +37,7 @@ class TrainingService:
         sentiments = np.fromiter(
             iter=[sentiment async for sentiment in sentiments], dtype=int
         )
-        x_train, x_test, y_train, y_test = train_test_split(
+        x_train, _, y_train, _ = train_test_split(
             features_df,
             sentiments,
             test_size=self._test_split,

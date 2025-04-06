@@ -13,15 +13,17 @@ class XGBoostModel(Model):
         self,
         classifier: Optional[XGBClassifier] = None,
         label_encoder: Optional[LabelEncoder] = None,
+        verbosity: Optional[int] = None,
     ):
         self.classifier = classifier
         self.label_encoder = label_encoder or LabelEncoder()
+        self._verbosity = verbosity or 2
 
     def fit(self, data: pd.DataFrame, target: List[int]):
         if self.classifier is not None:
             raise ValueError("Model already trained")
         transformed_target = self.label_encoder.fit_transform(target)
-        self.classifier = XGBClassifier()
+        self.classifier = XGBClassifier(verbosity=self._verbosity)
         self.classifier.fit(data, transformed_target)
 
     def predict(self, data: pd.DataFrame) -> np.ndarray[np.int64]:

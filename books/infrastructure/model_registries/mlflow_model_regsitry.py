@@ -46,6 +46,7 @@ class MlflowModelRegsitry(ModelRegistry):
             return model_id
 
     async def load_model(self, model_id: str) -> Model:
+        mlflow.set_tracking_uri(self._tracking_uri)
         if model_id.endswith("/xgboost"):
             return self._load_xgboost_model(model_id=model_id)
         else:

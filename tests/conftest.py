@@ -1,4 +1,5 @@
 import tempfile
+from typing import Generator
 import pytest
 
 from books.application.config import Config
@@ -7,7 +8,7 @@ from tests import TEST_DATA_ROOT
 
 
 @pytest.fixture(scope="session")
-def config() -> Config:
+def config() -> Generator[Config, None, None]:
     with tempfile.TemporaryDirectory() as tempdir:
         yield Config(
             reviews_jsonl_filepath=TEST_DATA_ROOT.joinpath(
