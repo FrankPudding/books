@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 
 from books.application.config import Config
 from books.domain.feature_builder import FeatureBuilder
-from books.domain.models.xgboost_model import XGBoostModel
+from books.domain.inference_service import InferenceService
 from books.domain.preprocessor import Preprocessor
 from books.domain.training_service import TrainingService
 from books.infrastructure.model_registries.mlflow_model_regsitry import (
@@ -32,17 +32,21 @@ class Container(DeclarativeContainer):
         FeatureBuilder, sentence_transformer=sentence_transformer
     )
 
-    xgboost_model = providers.Factory(XGBoostModel)
+    mlflow_model_registry = providers.Factory(
+        MlflowModelRegsitry, tracking_uri=config.mlflow_tracking_uri
+    )
 
     training_service = providers.Factory(
         TrainingService,
         review_repository=jsonl_file_review_repository,
         preprocessor=preprocessor,
         feature_builder=feature_builder,
-        untrained_model=xgboost_model,
+        model_registry=mlflow_model_registry,
         test_split=config.test_split,
     )
 
-    mlflow_model_regsitry = providers.Factory(
-        MlflowModelRegsitry, tracking_uri=config.mlflow_tracking_uri
+    inference_service = providers.Factory(
+        InferenceService,
+        model_registry=mlflow_model_registry,
+        feature_builder=feature_builder,
     )

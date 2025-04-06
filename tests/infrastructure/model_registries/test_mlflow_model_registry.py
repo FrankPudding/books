@@ -13,7 +13,7 @@ from books.infrastructure.model_registries.mlflow_model_regsitry import (
 class TestMlflowModelRegsitry:
     @pytest.fixture()
     def sut(self, container: Container) -> MlflowModelRegsitry:
-        return container.mlflow_model_regsitry()
+        return container.mlflow_model_registry()
 
     @pytest.mark.asyncio
     async def test_logs_model(self, sut: MlflowModelRegsitry):

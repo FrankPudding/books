@@ -2,14 +2,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from books.application.container import Container
 from books.domain.models.xgboost_model import XGBoostModel
 
 
 class TestXGBoostModel:
     @pytest.fixture()
-    def sut(self, container: Container) -> XGBoostModel:
-        return container.xgboost_model()
+    def sut(self) -> XGBoostModel:
+        return XGBoostModel()
 
     def test_fits(self, sut: XGBoostModel):
         # arrange
