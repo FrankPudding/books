@@ -25,7 +25,7 @@ def train():
     training_service = container.training_service()
     model = XGBoostModel()
     model_uri = asyncio.run(training_service.train_model(model))
-    print(f"Model URI: {model_uri})
+    print(f"Model URI: {model_uri}")
 
 
 @cli.command()
