@@ -13,9 +13,9 @@ class InferenceService:
         self._feature_builder = feature_builder
 
     async def predict_batch(
-        self, model_uri: str, sentences: List[str]
+        self, model_id: str, sentences: List[str]
     ) -> List[Sentiment]:
-        model = await self._model_registry.load_model(model_uri=model_uri)
+        model = await self._model_registry.load_model(model_id=model_id)
 
         async def _generate_sentences() -> AsyncGenerator[str, None]:
             for sentence in sentences:

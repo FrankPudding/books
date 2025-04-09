@@ -23,12 +23,12 @@ class TestInferenceService:
     ):
         # arrange
         model = XGBoostModel()
-        model_uri = await training_service.train_model(model=model)
+        model_id = await training_service.train_model(model=model)
         sentences = ["This is bad", "This is worse", "This is good though"]
 
         # act
         result = await sut.predict_batch(
-            model_uri=model_uri, sentences=sentences
+            model_id=model_id, sentences=sentences
         )
 
         # assert

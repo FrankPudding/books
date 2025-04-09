@@ -35,10 +35,10 @@ class TestMlflowModelRegsitry:
 
         model = XGBoostModel()
         model.fit(data=data, target=target)
-        model_uri = await sut.log_model(model=model)
+        model_id = await sut.log_model(model=model)
 
         # act
-        result = await sut.load_model(model_uri=model_uri)
+        result = await sut.load_model(model_id=model_id)
         asyncio.sleep(1)
 
         # assert

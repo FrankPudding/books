@@ -22,7 +22,7 @@ class TestTrainingService:
         assert isinstance(result, str)
 
     @pytest.mark.asyncio
-    async def test_can_load_model_uri(
+    async def test_can_load_model_id(
         self, sut: TrainingService, container: Container
     ):
         # arrange
@@ -30,8 +30,8 @@ class TestTrainingService:
         model_registry = container.mlflow_model_registry()
 
         # act
-        model_uri = await sut.train_model(model=model)
-        result = await model_registry.load_model(model_uri=model_uri)
+        model_id = await sut.train_model(model=model)
+        result = await model_registry.load_model(model_id=model_id)
 
         # assert
         assert isinstance(result, XGBoostModel)
